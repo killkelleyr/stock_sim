@@ -24,7 +24,7 @@ class dbWriter(object):
         """
         return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
-    def writeUserName(user_id, user_level, user_hash_pass, user_recent_login):
+    def writeUserName(user_id, user_level, user_hash_pass):
         cxn = dbWriter()
         statement = '''INSERT INTO username
                      (user_id, user_level, user_hash_pass, user_recent_login) 
