@@ -1,16 +1,16 @@
 import requests
-import json, os
+import json, os, sys
 
 class stock():
     def __init__(self,ticker):
         try:
-            APIKEY=os.environ('APIKEY')
+            APIKEY=os.environ['APIKEY']
             TD_PULL = requests.get('https://api.tdameritrade.com/v1/marketdata/{}/quotes?apikey={}'.format(ticker,APIKEY))
             stock_info = TD_PULL.json()
-            print(json.dumps(stock_info, indent=4))
+            print(stock_info)
         except:
             print('Error: unable too pull information about ticker \n ticker may be miss spelled')
-            return(0)
+
 
         self.symbol = stock_info[ticker]['symbol']
         self.bidPrice = stock_info[ticker]['bidPrice']
@@ -32,3 +32,6 @@ class stock():
         self.mark = stock_info[ticker]['mark']
         self.WkHigh = stock_info[ticker]['52WkHigh']
         self.WkLow = stock_info[ticker]['52WkLow']
+        self.divAmount = stock_info[ticker]['divAmount']
+        self.divYield = stock_info[ticker]['divYield']
+        self.divDate = stock_info[ticker]['divDate']
