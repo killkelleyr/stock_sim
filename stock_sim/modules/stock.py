@@ -12,7 +12,6 @@ class stock():
             print('Error: unable too pull information about ticker \n ticker may be miss spelled')
             return(0)
 
-
         self.symbol = stock_info[ticker]['symbol']
         self.bidPrice = stock_info[ticker]['bidPrice']
         self.bidSize = stock_info[ticker]['bidSize']
