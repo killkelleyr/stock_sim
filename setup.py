@@ -24,14 +24,15 @@ setup(name='stockSim',
       url='https://github.com/killkelleyr/stock_sim',
       version=get_version("stock_sim/__init__.py"),
       python_requires=">=3",
-      entry_points = ('console_scripts': [
-          'stockSim = stock_sim.cli.stockSim:main']),
+      entry_points = {'console_scripts': [
+          'stockSim = stock_sim.cli.stockSim:main']},
       packages=['stock_sim/modules'],
       description='',
       long_description=long_description,
       long_description_content_type='text/markdown',
       zip_safe=False,
       install_requires=[
+          'numpy',
           'mysql-connector-python',
           'yfinance',
           'pandas'])
