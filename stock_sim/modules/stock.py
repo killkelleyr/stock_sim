@@ -1,13 +1,14 @@
 import requests
 import json, os, sys
-
+import time
+import datetime
 class stock():
     def __init__(self,ticker):
         try:
             APIKEY=os.environ['APIKEY']
             TD_PULL = requests.get('https://api.tdameritrade.com/v1/marketdata/{}/quotes?apikey={}'.format(ticker,APIKEY))
             stock_info = TD_PULL.json()
-            print(stock_info)
+            #print(stock_info)
         except:
             print('Error: unable too pull information about ticker \n ticker may be miss spelled')
 
@@ -35,3 +36,30 @@ class stock():
         self.divAmount = stock_info[ticker]['divAmount']
         self.divYield = stock_info[ticker]['divYield']
         self.divDate = stock_info[ticker]['divDate']
+
+
+    def hist(ticker,start,end):
+        return(builder(ticker,start,end))
+
+
+class builder():
+    def __init__ (self,ticker,start,end):
+        self.open ={}
+        self.high ={}
+        self.low ={}
+        self.close ={}
+        self.volume ={}
+        APIKEY=os.environ['APIKEY']
+        unixstart = int(time.mktime(start.timetuple()))
+        unixend = int(time.mktime(end.timetuple()))
+        try:
+            stock_hist_raw = requests.get('https://api.tdameritrade.com/v1/marketdata/{}/pricehistory?apikey={}&periodType=day&frequencyType=minute&endDate={}000&startDate={}000'.format(ticker,APIKEY, unixend, unixstart))
+            stock_hist_tuple = stock_hist_raw.json()['candles']
+        except:
+            print('Error: unable too pull information about ticker \n ticker may be miss spelled \n or date may be wrong')
+        for x in stock_hist_tuple:
+            self.open[x.get('datetime')]= x.get('open')
+            self.high[x.get('datetime')]= x.get('high')
+            self.low[x.get('datetime')]= x.get('low')
+            self.close[x.get('datetime')]= x.get('close')
+            self.volume[x.get('datetime')]= x.get('volume')
