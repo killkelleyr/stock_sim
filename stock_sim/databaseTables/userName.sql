@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `stocksim`.`username` (
+CREATE TABLE IF NOT EXISTS `stocksimdb`.`username` (
   `user_pk` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `user_id` VARCHAR(45) NULL,
   `user_level` INT NULL,
