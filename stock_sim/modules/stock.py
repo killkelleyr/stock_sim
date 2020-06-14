@@ -37,9 +37,9 @@ class stock():
         self.divYield = stock_info[ticker]['divYield']
         self.divDate = stock_info[ticker]['divDate']
 
-
-    def hist(ticker,start,end):
-        return(builder(ticker,start,end))
+    def hist(self,start,end):
+        self.hist = builder(self.symbol,start,end)
+        
 
 
 class builder():
