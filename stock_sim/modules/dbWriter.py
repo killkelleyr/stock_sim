@@ -17,11 +17,13 @@ class dbWriter(object):
         except:
             print("Cannot connect to stocksimdb database")
             sys.exit()
+            
     def currentTime():
         """
         Function used to ensure time values are in a consistent format
         """
         return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
     def writeUserName(user_id, user_level, user_hash_pass):
         cxn = dbWriter()
         statement = '''INSERT INTO username
@@ -33,6 +35,7 @@ class dbWriter(object):
         cxn.stocksimdb.commit()
         cursor.close()
         cxn.stocksimdb.close()
+        
     def updateUserLogin(user_id):
         """
         Function for updating when a user last logged into the system. This will
@@ -50,7 +53,6 @@ class dbWriter(object):
         cxn.stocksimdb.close()
 
     def writetransactionhistory(user_id,ticker,price,buysell,transaction_time):
-
         """
         Fuction used to update the trancations table that are acuring
         user_id = the user Id
