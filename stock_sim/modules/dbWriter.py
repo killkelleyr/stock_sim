@@ -1,6 +1,7 @@
 import mysql.connector
 import os, sys
 from datetime import datetime
+
 class dbWriter(object):
     def __init__(self):
         try:
@@ -12,7 +13,7 @@ class dbWriter(object):
                 'host': os.environ['DB_HOST'],
                 'database': 'stocksimdb'
                 }
-            self.stocksimdb = mysql.connector.connect()
+            self.stocksimdb = mysql.connector.connect(**stocksim_config)
         except:
             print("Cannot connect to stocksimdb database")
             sys.exit()
@@ -47,6 +48,7 @@ class dbWriter(object):
         cxn.stocksimdb.commit()
         cursor.close()
         cxn.stocksimdb.close()
+
     def writetransactionhistory(user_id,ticker,price,buysell,transaction_time):
 
         """
