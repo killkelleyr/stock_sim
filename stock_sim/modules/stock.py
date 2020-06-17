@@ -2,6 +2,8 @@ import requests
 import json, os, sys
 import time
 import datetime
+from logger import logger
+
 class stock():
     def __init__(self,ticker):
         try:
@@ -10,9 +12,9 @@ class stock():
             stock_info = TD_PULL.json()
             #print(stock_info)
         except:
-            print('Error: unable too pull information about ticker \n ticker may be miss spelled')
-
-
+            logger.exitError("Unable too pull information about {} ticker may be miss spelled".format(ticker))
+            
+        logger.data("[STOCK] {}".format(stock_info))
         self.symbol = stock_info[ticker]['symbol']
         self.bidPrice = stock_info[ticker]['bidPrice']
         self.bidSize = stock_info[ticker]['bidSize']
@@ -39,6 +41,7 @@ class stock():
 
     def hist(self,start,end):
         self.hist = builder(self.symbol,start,end)
+        logger.data("[HIST] {}".format(self.hist))
         
 
 
@@ -57,6 +60,7 @@ class builder():
             stock_hist_tuple = stock_hist_raw.json()['candles']
         except:
             print('Error: unable too pull information about ticker \n ticker may be miss spelled \n or date may be wrong')
+            logger.exitError("Could not pull data from history for {}".format(ticker))
         for x in stock_hist_tuple:
             self.open[x.get('datetime')]= x.get('open')
             self.high[x.get('datetime')]= x.get('high')
