@@ -1,10 +1,12 @@
 from datetime import datetime
-import sys
+import sys, os
 
 class logger(object):
     def __init__(self):
         # TODO: Use this to create log dir
         self.logDir = '../logs/'
+        if not os.path.exists(self.logDir):
+            os.makedirs(self.logDir)
         
     def data(self, message):
         '''
