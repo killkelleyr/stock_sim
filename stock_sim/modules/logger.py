@@ -4,7 +4,11 @@ import sys, os
 class logger(object):
     def __init__(self):
         # TODO: Use this to create log dir
-        self.logDir = '../logs/'
+        home = os.path.expanduser("~")
+        if os.name == "nt":
+            self.logDir = home + "\\StockSimLogs\\"
+        else:
+            self.logDir = home + "/StockSimLogs/"
         if not os.path.exists(self.logDir):
             os.makedirs(self.logDir)
         
