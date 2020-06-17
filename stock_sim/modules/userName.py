@@ -1,5 +1,10 @@
+import hashlib
+import os
+import binascii
+from getpass import getpass
 from dbReader import dbReader
 from dbWriter import dbWriter
+from logger import logger
 
 userNames = {}
 userNamesDB = {}
@@ -10,14 +15,16 @@ class userName():
         self.userName = userName
         self.password = bytes(str(password),encoding='utf-8')
         self.permissionLevel = int(permissionLevel)
-        self.startDate = startDate
-        self.mostRecentDate = mostRecentDate
+        self.mostRecentDate = recentDate
 
     def importFromDB():
-        users = dbReader.executeQuery("select * from username")
-        for x in users:
-            userNamesDB[x[1]] = userName(x[1],x[2],x[3],x[4],x[5])
-        return userNamesDB
+        try:
+            users = dbReader.executeQuery("select * from username")
+            for x in users:
+                userNamesDB[x[1]] = userName(x[1],x[2],x[3],x[4],x[5])
+            return userNamesDB
+        except Exception as e:
+            logger.exitError(e)
     
     def passwordHasher(password):
         salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')
@@ -66,24 +73,30 @@ class userName():
                         if userName.passwordVerification(user.password,password):
                             if verbose:
                                 print("Access Granted")
+                                logger.info("User {} successfully logged in".format(user.userName))
                             dbWriter.updateUserLogin(user.userName)
                             return user.userName
                         else:
                             print("Access Denied")
                             print("Incorrect password")
+                            logger.info("Unsuccessful password entry for user {}".format(user.userName))
                             passwordAttempts+=1
                             if passwordAttempts >= 3:
                                 print("Too many login attempts")
+                                logger.info("Login for user {} failed".format(user.userName))
                                 return False
                 else:
                     print("Access Denied!")
                     print("Insufficient user access level")
+                    logger.error("User {}: permission denied".format(user.userName))
                     return False
             else:
                 loginAttempts+=1
                 print ("User Does not exist! Please try again")
+                logger.info("user {} does not exist".format(user.userName))
                 if loginAttempts == 3:
                     print("Too Many Login Attemtps")
+                    logger.error("Too many login attempts")
                     return False
 
     def createUser(permissionLevel=0):
@@ -95,10 +108,12 @@ class userName():
         newUserName = ""
         while True:
             newUserName=""
+            logger.info("Create a user")
             print("---- Create a user ----")
             newUserName = input("Please enter your userID: ")
             if newUserName  in currentUsers.keys():
                 print("User already exists")
+                logger.info("User {} exists".format(newUserName))
             else:
                 print("Created User")
                 break
@@ -120,5 +135,6 @@ class userName():
                 print("password too short")
                 
         print("User {} created".format(newUserName))
+        logger.info("Created user {}".format(newUserName))
         permission=0
         dbWriter.writeUserName(newUserName, permission, password)
