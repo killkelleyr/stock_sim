@@ -11,7 +11,7 @@ class dbWriter(object):
             stocksim_config = {
                 'user': os.environ['STOCK_DB_USER'],
                 'password': os.environ['STOCK_DB_PASS'], # pragma: allowlist secret
-                'port': os.environ['DB_PORT'],
+                'port': os.environ['STOCK_DB_PORT'],
                 'charset': 'utf8',
                 'host': os.environ['STOCK_DB_HOST'],
                 'database': 'stocksimdb'
