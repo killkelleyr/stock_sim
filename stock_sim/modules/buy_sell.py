@@ -1,11 +1,13 @@
 from dbWriter import dbWriter
-#from logger import logger
+from logger import logger
 from stock import stock
 import requests
 import os
 import datetime
 import random
 import time
+
+buySellLogger = logger()
 
 class buy_sell(object):
     def __init__(self,ticker,volume,buysell,user_id):
@@ -22,7 +24,7 @@ class buy_sell(object):
                 APIKEY = os.environ['APIKEY']
                 TD_transaction = requests.get('https://api.tdameritrade.com/v1/marketdata/{}/quotes?apikey={}'.format(ticker,APIKEY))
                 "(logic for determination of a good perches whenth trew)"
-                logger.info("{} of {} was purchesed").format()
+                buySellLogger.info("{} of {} was purchesed").format()
                 #set athurisation time
             except:
                 print("API purches faild")

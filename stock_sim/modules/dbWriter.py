@@ -3,21 +3,23 @@ import os, sys
 from datetime import datetime
 from logger import logger
 
+dbWriterLogger = logger()
+
 class dbWriter(object):
     def __init__(self):
         try:
             stocksim_config = {
-                'user': os.environ['DB_USER'],
-                'password': os.environ['DB_PASS'], # pragma: allowlist secret
-                'port': os.environ['DB_PORT'],
+                'user': os.environ['STOCK_DB_USER'],
+                'password': os.environ['STOCK_DB_PASS'], # pragma: allowlist secret
+                'port': os.environ['STOCK_DB_PORT'],
                 'charset': 'utf8',
-                'host': os.environ['DB_HOST'],
+                'host': os.environ['STOCK_DB_HOST'],
                 'database': 'stocksimdb'
                 }
             self.stocksimdb = mysql.connector.connect(**stocksim_config)
-            logger.info("Logged into stocksimdb")
+            dbWriterLogger.info("Logged into stocksimdb")
         except:
-            logger.exitError("Cannot connect to stocksimdb")
+            dbWriterLogger.exitError("Cannot connect to stocksimdb")
             
     def currentTime():
         """
@@ -40,11 +42,11 @@ class dbWriter(object):
             cxn.stocksimdb.commit()
             cursor.close()
             cxn.stocksimdb.close()
-            logger.data("Adding to db: [{}, {}, {}, {}]".format(user_id, 
-                                            user_level, user_hash_pass)))
+            dbWriterLogger.data("Adding to db: [{}, {}, {}, {}]".format(user_id, 
+                                            user_level, user_hash_pass))
         except:
-            logger.error("Could not write: [{}, {}, {}, {}]".format(user_id, 
-                                            user_level, user_hash_pass)))
+            dbWriterLogger.error("Could not write: [{}, {}, {}, {}]".format(user_id, 
+                                            user_level, user_hash_pass))
             
     def updateUserLogin(user_id):
         """
@@ -62,9 +64,9 @@ class dbWriter(object):
             cxn.stocksimdb.commit()
             cursor.close()
             cxn.stocksimdb.close()
-            logger.data("Adding to db: [{}]".format(user_id))
+            dbWriterLogger.data("Adding to db: [{}]".format(user_id))
         except:
-            logger.error("Could not write: [{}]".format(user_id))
+            dbWriterLogger.error("Could not write: [{}]".format(user_id))
 
     def writetransactionhistory(user_id,ticker,price,volume,buysell,transaction_time):
         """
@@ -86,8 +88,8 @@ class dbWriter(object):
             cxn.stocksimdb.commit()
             cursor.close()
             cxn.stocksimdb.close()
-            logger.data("Adding to db: [{},{},{},{},{}]".format(user_id,ticker,
+            dbWriterLogger.data("Adding to db: [{},{},{},{},{}]".format(user_id,ticker,
                                             price,buysell,transaction_time))
         except:
-            logger.error("Could not write: [{}, {}, {}, {}, {}]".format(user_id,
+            dbWriterLogger.error("Could not write: [{}, {}, {}, {}, {}]".format(user_id,
                                         ticker,price,buysell,transaction_time))
