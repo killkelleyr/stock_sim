@@ -1,6 +1,7 @@
 import mysql.connector
 import os, sys
 from datetime import datetime
+from logger import logger
 
 class dbWriter(object):
     def __init__(self):
@@ -14,10 +15,10 @@ class dbWriter(object):
                 'database': 'stocksimdb'
                 }
             self.stocksimdb = mysql.connector.connect(**stocksim_config)
+            logger.info("Logged into stocksimdb")
         except:
-            print("Cannot connect to stocksimdb database")
-            sys.exit()
-
+            logger.exitError("Cannot connect to stocksimdb")
+            
     def currentTime():
         """
         Function used to ensure time values are in a consistent format
@@ -25,32 +26,45 @@ class dbWriter(object):
         return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     def writeUserName(user_id, user_level, user_hash_pass):
-        cxn = dbWriter()
-        statement = '''INSERT INTO username
-                     (user_id, user_level, user_hash_pass, user_recent_login)
-                     VALUES("{}","{}","{}","{}")'''.format(user_id, user_level,
-                     user_hash_pass, cxn.currentTime())
-        cursor=cxn.stocksimdb.cursor()
-        cursor.execute(statement)
-        cxn.stocksimdb.commit()
-        cursor.close()
-        cxn.stocksimdb.close()
-
+        """
+        Used for writing to database
+        """
+        try:
+            cxn = dbWriter()
+            statement = '''INSERT INTO username
+                         (user_id, user_level, user_hash_pass, user_recent_login)
+                         VALUES("{}","{}","{}","{}")'''.format(user_id, user_level,
+                         user_hash_pass, cxn.currentTime())
+            cursor=cxn.stocksimdb.cursor()
+            cursor.execute(statement)
+            cxn.stocksimdb.commit()
+            cursor.close()
+            cxn.stocksimdb.close()
+            logger.data("Adding to db: [{}, {}, {}, {}]".format(user_id, 
+                                            user_level, user_hash_pass)))
+        except:
+            logger.error("Could not write: [{}, {}, {}, {}]".format(user_id, 
+                                            user_level, user_hash_pass)))
+            
     def updateUserLogin(user_id):
         """
         Function for updating when a user last logged into the system. This will
             update the user_recent_login field in the database
         """
-        cxn = dbWriter()
-        statement = ("""UPDATE username
-                     SET user_recent_login = {}
-                     WHERE user_id = "{}"
-                     """).format(cxn.currentTime(),user_id)
-        cursor=cxn.stocksimdb.cursor()
-        cursor.execute(statement)
-        cxn.stocksimdb.commit()
-        cursor.close()
-        cxn.stocksimdb.close()
+        try:
+            cxn = dbWriter()
+            statement = ("""UPDATE username
+                         SET user_recent_login = {}
+                         WHERE user_id = "{}"
+                         """).format(cxn.currentTime(),user_id)
+            cursor=cxn.stocksimdb.cursor()
+            cursor.execute(statement)
+            cxn.stocksimdb.commit()
+            cursor.close()
+            cxn.stocksimdb.close()
+            logger.data("Adding to db: [{}]".format(user_id))
+        except:
+            logger.error("Could not write: [{}]".format(user_id))
 
     def writetransactionhistory(user_id,ticker,price,volume,buysell,transaction_time):
         """
@@ -61,13 +75,19 @@ class dbWriter(object):
         buysell = are we buying or selling the stock
         transaction_time = the time the actual transaction when throught
         """
-        cxn = dbWriter()
-        statement= '''INSERT INTO Transaction_history
-                    (user_id,ticker,price,buysell,transaction_time,volume)
-                    VALUES("{}","{}","{}","{}","{}","{}")'''.format(user_id,ticker,
-                    price,buysell,transaction_time,volume)
-        cursor=cxn.stocksimdb.cursor()
-        cursor.execute(statement)
-        cxn.stocksimdb.commit()
-        cursor.close()
-        cxn.stocksimdb.close()
+        try:
+            cxn = dbWriter()
+            statement= '''INSERT INTO Transaction_history
+                        (user_id,ticker,price,buysell,transaction_time)
+                        VALUES("{}","{}","{}","{}","{}")'''.format(user_id,ticker,
+                        price,buysell,transaction_time)
+            cursor=cxn.stocksimdb.cursor()
+            cursor.execute(statement)
+            cxn.stocksimdb.commit()
+            cursor.close()
+            cxn.stocksimdb.close()
+            logger.data("Adding to db: [{},{},{},{},{}]".format(user_id,ticker,
+                                            price,buysell,transaction_time))
+        except:
+            logger.error("Could not write: [{}, {}, {}, {}, {}]".format(user_id,
+                                        ticker,price,buysell,transaction_time))
