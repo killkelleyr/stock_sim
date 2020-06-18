@@ -2,22 +2,24 @@ import mysql.connector
 import os, sys
 from logger import logger
 
+dbReaderLogger = logger()
+
 class dbReader(object):
     def __init__(self):
         try:
             stocksim_config = {
-                'user': os.environ['DB_USER'],
-                'password': os.environ['DB_PASS'], # pragma: allowlist secret
+                'user': os.environ['STOCK_DB_USER'],
+                'password': os.environ['STOCK_DB_PASS'], # pragma: allowlist secret
                 'port': os.environ['DB_PORT'],
                 'charset': 'utf8',
-                'host': os.environ['DB_HOST'],
+                'host': os.environ['STOCK_DB_HOST'],
                 'database': 'stocksimdb'
                 }
             self.stocksimdb = mysql.connector.connect(**stocksim_config)
-            logger.info("Successfully connected to stocksimdb")
-        except:
-            print("Cannot connect to stocksimdb database")
-            logger.exitError("Could not connect to stocksimdb")
+            dbReaderLogger.info("Successfully connected to stocksimdb")
+        except Exception as e:
+            print("Cannot connect to stocksimdb database: {}".format(e))
+            dbReaderLogger.exitError("Could not connect to stocksimdb")
     
     def executeQuery(query):
         """
@@ -38,7 +40,7 @@ class dbReader(object):
                 for column in row:
                     rowData.append(column)
                 queryResult.append(rowData)
-            logger.info("Return query: {}".format(queryResult))
+            dbReaderLogger.info("Return query: {}".format(queryResult))
             return queryResult
         except:
-            logger.exitError("Could not query db: {}".format(query))
+            dbReaderLogger.exitError("Could not query db: {}".format(query))

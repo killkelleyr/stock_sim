@@ -8,6 +8,7 @@ from logger import logger
 
 userNames = {}
 userNamesDB = {}
+userNameLogger = logger()
 
 class userName():
     def __init__(self, userName = None, permissionLevel = 0, password = None, 
@@ -24,7 +25,7 @@ class userName():
                 userNamesDB[x[1]] = userName(x[1],x[2],x[3],x[4],x[5])
             return userNamesDB
         except Exception as e:
-            logger.exitError(e)
+            userNameLogger.exitError(e)
     
     def passwordHasher(password):
         salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')
@@ -73,30 +74,30 @@ class userName():
                         if userName.passwordVerification(user.password,password):
                             if verbose:
                                 print("Access Granted")
-                                logger.info("User {} successfully logged in".format(user.userName))
+                                userNameLogger.info("User {} successfully logged in".format(user.userName))
                             dbWriter.updateUserLogin(user.userName)
                             return user.userName
                         else:
                             print("Access Denied")
                             print("Incorrect password")
-                            logger.info("Unsuccessful password entry for user {}".format(user.userName))
+                            userNameLogger.info("Unsuccessful password entry for user {}".format(user.userName))
                             passwordAttempts+=1
                             if passwordAttempts >= 3:
                                 print("Too many login attempts")
-                                logger.info("Login for user {} failed".format(user.userName))
+                                userNameLogger.info("Login for user {} failed".format(user.userName))
                                 return False
                 else:
                     print("Access Denied!")
                     print("Insufficient user access level")
-                    logger.error("User {}: permission denied".format(user.userName))
+                    userNameLogger.error("User {}: permission denied".format(user.userName))
                     return False
             else:
                 loginAttempts+=1
                 print ("User Does not exist! Please try again")
-                logger.info("user {} does not exist".format(user.userName))
+                userNameLogger.info("user {} does not exist".format(user))
                 if loginAttempts == 3:
                     print("Too Many Login Attemtps")
-                    logger.error("Too many login attempts")
+                    userNameLogger.error("Too many login attempts")
                     return False
 
     def createUser(permissionLevel=0):
@@ -108,12 +109,12 @@ class userName():
         newUserName = ""
         while True:
             newUserName=""
-            logger.info("Create a user")
+            userNameLogger.info("Create a user")
             print("---- Create a user ----")
             newUserName = input("Please enter your userID: ")
             if newUserName  in currentUsers.keys():
                 print("User already exists")
-                logger.info("User {} exists".format(newUserName))
+                userNameLogger.info("User {} exists".format(newUserName))
             else:
                 print("Created User")
                 break
@@ -135,6 +136,6 @@ class userName():
                 print("password too short")
                 
         print("User {} created".format(newUserName))
-        logger.info("Created user {}".format(newUserName))
+        userNameLogger.info("Created user {}".format(newUserName))
         permission=0
         dbWriter.writeUserName(newUserName, permission, password)
