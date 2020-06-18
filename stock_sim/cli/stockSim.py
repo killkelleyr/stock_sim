@@ -3,7 +3,9 @@ import textwrap
 
 class cli():
     def __init__(self):
-        os.system('mode con: cols=100 lines=40')
+        self.width=100
+        self.height=40
+        os.system('mode con: cols={} lines={}'.format(self.width, self.height))
         self.clearScreen()
         
     def printLogo(self):
@@ -53,7 +55,7 @@ class cli():
         
         self.headerFooter()
         for x in options:
-            print(textwrap.fill("Option {}: {}".format(x, options[x]) , width=62))
+            print(textwrap.fill("Option {}: {}".format(x, options[x]) , width=self.width))
             print()
         self.headerFooter()
         while True:
@@ -72,7 +74,7 @@ class cli():
         Returns:
             string of what the user entered in this step
         '''
-        return(input(textwrap.fill(message, width = 62) + " "))
+        return(input(textwrap.fill(message, width=self.width) + " "))
     
     def printLine(self, message):
         '''
@@ -85,7 +87,7 @@ class cli():
         Returns:
             None - prints to screen only
         '''
-        print(textwrap.fill(message, width = 62))
+        print(textwrap.fill(message, width = self.width))
 
 class normalWorkflow():
     def __init__(self):
