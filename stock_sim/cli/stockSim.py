@@ -2,6 +2,8 @@ import os
 import textwrap
 os.system('mode con: cols=100 lines=40')
 class cli():
+    def __init__(self):
+        self.clearScreen()
         
     def printLogo(self):
         '''
