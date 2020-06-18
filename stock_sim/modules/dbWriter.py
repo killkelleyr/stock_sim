@@ -24,7 +24,7 @@ class dbWriter(object):
         Function used to ensure time values are in a consistent format
         """
         return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    
+
     def writeUserName(user_id, user_level, user_hash_pass):
         """
         Used for writing to database
@@ -45,7 +45,7 @@ class dbWriter(object):
         except:
             logger.error("Could not write: [{}, {}, {}, {}]".format(user_id, 
                                             user_level, user_hash_pass)))
-        
+            
     def updateUserLogin(user_id):
         """
         Function for updating when a user last logged into the system. This will
@@ -66,7 +66,7 @@ class dbWriter(object):
         except:
             logger.error("Could not write: [{}]".format(user_id))
 
-    def writetransactionhistory(user_id,ticker,price,buysell,transaction_time):
+    def writetransactionhistory(user_id,ticker,price,volume,buysell,transaction_time):
         """
         Fuction used to update the trancations table that are acuring
         user_id = the user Id
