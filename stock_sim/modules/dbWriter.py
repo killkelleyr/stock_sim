@@ -45,7 +45,7 @@ class dbWriter(object):
             dbWriterLogger.data("Adding to db: [{}, {}, {}, {}]".format(user_id, 
                                             user_level, user_hash_pass))
         except:
-            dbWriterLogger.error("Could not write: [{}, {}, {}, {}]".format(user_id, 
+            dbWriterLogger.error("Could not write: [{}, {}, {}]".format(user_id, 
                                             user_level, user_hash_pass))
             
     def updateUserLogin(user_id):
