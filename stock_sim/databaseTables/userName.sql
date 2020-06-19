@@ -3,5 +3,5 @@ CREATE TABLE IF NOT EXISTS `stocksimdb`.`username` (
   `user_id` VARCHAR(45) NULL,
   `user_level` INT NULL,
   `user_hash_pass` VARCHAR(192) NULL,
-  `user_create_date` BIGINT(20) NULL,
-  `user_recent_login` BIGINT(20) NULL);
+  `user_create_date` VARCHAR(20) NULL,
+  `user_recent_login` VARCHAR(20) NULL);

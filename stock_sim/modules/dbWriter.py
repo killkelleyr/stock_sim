@@ -18,10 +18,11 @@ class dbWriter(object):
                 }
             self.stocksimdb = mysql.connector.connect(**stocksim_config)
             dbWriterLogger.info("Logged into stocksimdb")
-        except:
+        except Exception as e:
+            print(e)
             dbWriterLogger.exitError("Cannot connect to stocksimdb")
             
-    def currentTime():
+    def currentTime(self):
         """
         Function used to ensure time values are in a consistent format
         """
@@ -34,9 +35,9 @@ class dbWriter(object):
         try:
             cxn = dbWriter()
             statement = '''INSERT INTO username
-                         (user_id, user_level, user_hash_pass, user_recent_login)
-                         VALUES("{}","{}","{}","{}")'''.format(user_id, user_level,
-                         user_hash_pass, cxn.currentTime())
+                         (user_id, user_level, user_hash_pass, user_recent_login, user_create_date)
+                         VALUES("{}","{}","{}","{}", "{}")'''.format(user_id, user_level,
+                         user_hash_pass, cxn.currentTime(), cxn.currentTime())
             cursor=cxn.stocksimdb.cursor()
             cursor.execute(statement)
             cxn.stocksimdb.commit()
@@ -44,8 +45,8 @@ class dbWriter(object):
             cxn.stocksimdb.close()
             dbWriterLogger.data("Adding to db: [{}, {}, {}, {}]".format(user_id, 
                                             user_level, user_hash_pass))
-        except:
-            dbWriterLogger.error("Could not write: [{}, {}, {}, {}]".format(user_id, 
+        except Exception as e:
+            dbWriterLogger.error("Could not write new user: {} to databse".format(user_id, 
                                             user_level, user_hash_pass))
             
     def updateUserLogin(user_id):
@@ -65,7 +66,8 @@ class dbWriter(object):
             cursor.close()
             cxn.stocksimdb.close()
             dbWriterLogger.data("Adding to db: [{}]".format(user_id))
-        except:
+        except Exception as e:
+            print(e)
             dbWriterLogger.error("Could not write: [{}]".format(user_id))
 
     def writetransactionhistory(user_id,ticker,price,volume,buysell,transaction_time):
@@ -90,6 +92,7 @@ class dbWriter(object):
             cxn.stocksimdb.close()
             dbWriterLogger.data("Adding to db: [{},{},{},{},{}]".format(user_id,ticker,
                                             price,buysell,transaction_time))
-        except:
+        except Exception as e:
+            print(e)
             dbWriterLogger.error("Could not write: [{}, {}, {}, {}, {}]".format(user_id,
                                         ticker,price,buysell,transaction_time))
