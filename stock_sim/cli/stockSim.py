@@ -3,6 +3,7 @@ import textwrap
 sys.path.append('../modules/')
 from logger import logger
 import datetime
+from userName import userName
 
 class cli():
     def __init__(self):
@@ -95,7 +96,12 @@ class cli():
 class normalWorkflow():
     def __init__(self):
         self.display = cli()
-        self.home_screen()
+        self.login()
+
+    def login(self):
+        self.display.printLogo()
+        user = userName.login()
+        self.home_screen(user)
 
     def workflow(self):
         options={'1':'Test Option number 1',
@@ -109,7 +115,9 @@ class normalWorkflow():
         self.display.printLine("With that option value received you can create custom functions which can bring you to a new screen")
         self.display.printLine("In addition to utilizing the printOptions method and the printLine method. You can call the printInput method to have a user enter an input to be used later")
         val = self.display.printInput("Here is an example of a custom input option:  ")
-    def home_screen(self):
+    
+    def home_screen(self, user):
+        self.display.clearScreen()
         options = {'1':'Portfolio',
                     '2':'stock search',
                     '3':'stock history'}
@@ -118,7 +126,8 @@ class normalWorkflow():
         cash = 'this is your cash value '#get cash from db
         now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         #TIME DOES NOT AUTO UPDATE
-
+        self.display.headerFooter()
+        self.display.printLine("Welcome {}!".format(user))
         self.display.printLine("{:<50s}{:^50s}".format(cash,now))
         optionChosen = self.display.printOptions(options)
         self.display.clearScreen()
