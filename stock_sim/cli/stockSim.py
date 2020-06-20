@@ -99,9 +99,10 @@ class normalWorkflow():
         self.login()
 
     def login(self):
+        self.user = None
         self.display.printLogo()
-        user = userName.login()
-        self.home_screen(user)
+        self.user = userName.login()
+        self.home_screen()
 
     def workflow(self):
         options={'1':'Test Option number 1',
@@ -116,19 +117,13 @@ class normalWorkflow():
         self.display.printLine("In addition to utilizing the printOptions method and the printLine method. You can call the printInput method to have a user enter an input to be used later")
         val = self.display.printInput("Here is an example of a custom input option:  ")
     
-    def home_screen(self, user):
+    def home_screen(self):
         self.display.clearScreen()
         options = {'1':'Portfolio',
                     '2':'stock search',
                     '3':'stock history'}
 
-
-        cash = 'this is your cash value '#get cash from db
-        now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        #TIME DOES NOT AUTO UPDATE
-        self.display.headerFooter()
-        self.display.printLine("Welcome {}!".format(user))
-        self.display.printLine("{:<50s}{:^50s}".format(cash,now))
+        self.userHeader()
         optionChosen = self.display.printOptions(options)
         self.display.clearScreen()
         if optionChosen == 1:
@@ -137,6 +132,20 @@ class normalWorkflow():
             '''go to stock search'''
         elif optionChosen == 3:
             '''stock history'''
+    
+    def userHeader(self):
+        #TIME DOES NOT AUTO UPDATE
+        cash = 'this is your cash value '#get cash from db
+        now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self.display.clearScreen()
+        self.display.headerFooter()
+        self.display.printLine('{}'.format(self.user))
+        self.display.printLine("{:<50s}{:^50s}".format(cash,now))
+        self.display.headerFooter()
+    
+    def lookup(self):
+        # pass
+        return
 
 
 
