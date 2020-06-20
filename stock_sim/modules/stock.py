@@ -7,7 +7,36 @@ from logger import logger
 stockLogger = logger()
 
 class stock():
-    def __init__(self,ticker):
+    def __init__(self):
+        self.symbol = None
+        self.bidPrice = None
+        self.bidSize = None
+        self.askPrice = None
+        self.askSize = None
+        self.lastPrice = None
+        self.lastSize = None
+        self.openPrice = None
+        self.highPrice = None
+        self.lowPrice = None
+        self.bidTick = None
+        self.closePrice = None
+        self.netChange = None
+        self.volatility = None
+        self.assetType = None
+        self.description = None
+        self.totalVolume = None
+        self.mark = None
+        self.WkHigh = None
+        self.WkLow = None
+        self.divAmount = None
+        self.divYield = None
+        self.divDate = None
+
+    def hist(self,start,end):
+        self.hist = builder(self.symbol,start,end)
+        stockLogger.data("[HIST] {}".format(self.hist))
+        
+    def lookupTicker(self,ticker):
         try:
             APIKEY=os.environ['APIKEY']
             TD_PULL = requests.get('https://api.tdameritrade.com/v1/marketdata/{}/quotes?apikey={}'.format(ticker,APIKEY))
@@ -40,10 +69,6 @@ class stock():
         self.divAmount = stock_info[ticker]['divAmount']
         self.divYield = stock_info[ticker]['divYield']
         self.divDate = stock_info[ticker]['divDate']
-
-    def hist(self,start,end):
-        self.hist = builder(self.symbol,start,end)
-        stockLogger.data("[HIST] {}".format(self.hist))
         
 
 

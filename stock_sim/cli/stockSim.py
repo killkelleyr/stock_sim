@@ -4,6 +4,7 @@ sys.path.append('../modules/')
 from logger import logger
 import datetime
 from userName import userName
+from stock import stock
 
 class cli():
     def __init__(self):
@@ -120,17 +121,17 @@ class normalWorkflow():
     def home_screen(self):
         self.display.clearScreen()
         options = {'1':'Portfolio',
-                    '2':'stock search',
+                    '2':'stock lookup',
                     '3':'stock history'}
 
         self.userHeader()
         optionChosen = self.display.printOptions(options)
         self.display.clearScreen()
-        if optionChosen == 1:
+        if optionChosen == '1':
             '''go to portfollio'''
-        elif optionChosen == 2:
-            '''go to stock search'''
-        elif optionChosen == 3:
+        elif optionChosen == '2':
+            self.lookup()
+        elif optionChosen == '3':
             '''stock history'''
     
     def userHeader(self):
@@ -144,7 +145,51 @@ class normalWorkflow():
         self.display.headerFooter()
     
     def lookup(self):
-        # pass
+        error = False
+        
+        lookupEnd = False
+        stocks = stock()
+        while lookupEnd is False:
+            ticker = ''
+            try:
+                self.display.clearScreen()
+                self.display.headerFooter()
+                self.display.printLine('Stock Lookup   Enter 1 to exit at any time')
+                self.display.headerFooter()
+                
+                
+                
+                if error:
+                    self.display.printLine('Could not find {}'.format(ticker))
+                    error = False
+                    ticker = ''
+                else:
+                    if stocks.WkHigh != None:
+                        self.display.printLine('{} - {}'.format(stocks.symbol, stocks.description))
+                        self.display.printLine("")
+                        
+                        print("{:<50s}{:^50s}".format('Current Price: {}'.format(stocks.lastPrice), 'Close Price: {}'.format(stocks.closePrice)))
+                        print("{:<50s}{:^50s}".format('Bid Price: {}'.format(stocks.bidPrice), 'Bid Size: {}'.format(stocks.bidSize)))
+                        print("{:<50s}{:^50s}".format('Ask Price: {}'.format(stocks.askPrice), 'Ask Size: {}'.format(stocks.askSize)))
+                        print("{:<50s}{:^50s}".format('52 WK High: {}'.format(stocks.WkHigh), '52 WK Low: {}'.format(stocks.WkLow)))
+                        self.display.printLine('')
+                        self.display.printLine("Enter 2 to Buy/Sell this stock")
+                    else:
+                        self.display.printLine('')
+                    
+                ticker = self.display.printInput('Stock Ticker:')
+                if ticker == '1':
+                    lookupEnd = True
+                elif ticker == '2':
+                    self.buySell()
+                else:
+                    stocks.lookupTicker(ticker)
+            except:
+                error = True
+        
+        self.home_screen()
+        
+    def buySell(self):
         return
 
 
