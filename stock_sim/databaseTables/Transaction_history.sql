@@ -5,6 +5,6 @@ CREATE TABLE IF NOT EXISTS `stocksimdb`.`Transaction_history`(
     `ticker` varchar(4) NULL,
     `price`DECIMAL(65,2),
     `volume` INT NULL,
-    `buy/sell` int NULL,
+    `buy_sell` int NULL,
     `transaction_time` DATETIME NULL);
    
