@@ -155,9 +155,7 @@ class normalWorkflow():
                 self.display.clearScreen()
                 self.display.headerFooter()
                 self.display.printLine('Stock Lookup   Enter 1 to exit at any time')
-                self.display.headerFooter()
-                
-                
+                self.display.headerFooter() 
                 
                 if error:
                     self.display.printLine('Could not find {}'.format(ticker))
@@ -181,15 +179,29 @@ class normalWorkflow():
                 if ticker == '1':
                     lookupEnd = True
                 elif ticker == '2':
-                    self.buySell()
+                    self.buySell(stocks)
                 else:
                     stocks.lookupTicker(ticker)
-            except:
+            except Exception as e:
+                print(e)
                 error = True
         
         self.home_screen()
         
-    def buySell(self):
+    def buySell(self, stock):
+        self.display.clearScreen()
+        self.display.headerFooter()
+        self.display.printLine('Buy/Sell {}'.format(stock.symbol))
+        self.display.headerFooter()
+        self.display.printLine('')
+        option = self.display.printOptions({'1':'Buy','2':'Sell'})
+        if option == '1':
+            #TODO: Buy option
+            pass
+        elif option == '2':
+            #TODO: Check if they own then sell
+            pass
+        
         return
 
 
