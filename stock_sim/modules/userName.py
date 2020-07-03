@@ -12,11 +12,13 @@ userNameLogger = logger()
 
 class userName():
     def __init__(self, userName = None, permissionLevel = 0, password = None, 
-                 createDate = None, recentDate = None):
+                 createDate = None, recentDate = None, portfolioData = None):
         self.userName = userName
         self.password = bytes(str(password),encoding='utf-8')
         self.permissionLevel = int(permissionLevel)
         self.mostRecentDate = recentDate
+        self.balance = 1000
+        self.portfolio = self.portfolioBuilder(portfolioData)
 
     def importFromDB():
         try:
@@ -67,7 +69,7 @@ class userName():
                 if user.permissionLevel >= permissionsRequired:
                     passwordAttempts = 0
                     if permissionsRequired == 0:
-                        return user.userName
+                        return user
 
                     while passwordAttempts < 3:
                         password = getpass("Please Enter Password: ")
@@ -76,7 +78,7 @@ class userName():
                                 print("Access Granted")
                                 userNameLogger.info("User {} successfully logged in".format(user.userName))
                             dbWriter.updateUserLogin(user.userName)
-                            return user.userName
+                            return user
                         else:
                             print("Access Denied")
                             print("Incorrect password")

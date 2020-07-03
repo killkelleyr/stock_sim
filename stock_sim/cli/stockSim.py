@@ -5,6 +5,8 @@ from logger import logger
 import datetime
 from userName import userName
 from stock import stock
+from portfolio import validate
+from buy_sell import buy_sell
 
 class cli():
     def __init__(self):
@@ -140,7 +142,7 @@ class normalWorkflow():
         now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.display.clearScreen()
         self.display.headerFooter()
-        self.display.printLine('{}'.format(self.user))
+        self.display.printLine('{}'.format(self.user.userName))
         self.display.printLine("{:<50s}{:^50s}".format(cash,now))
         self.display.headerFooter()
     
@@ -191,15 +193,16 @@ class normalWorkflow():
     def buySell(self, stock):
         self.display.clearScreen()
         self.display.headerFooter()
-        self.display.printLine('Buy/Sell {}'.format(stock.symbol))
+        self.display.printLine('Buy/Sell {} at ${}'.format(stock.symbol,stock.lastPrice))
         self.display.headerFooter()
         self.display.printLine('')
         option = self.display.printOptions({'1':'Buy','2':'Sell'})
+        volume = self.display.printInput("Please enter the number of shares you would like to buy/sell")
         if option == '1':
-            #TODO: Buy option
+            buy_sell(stock, volume, 1, self.user)
             pass
         elif option == '2':
-            #TODO: Check if they own then sell
+            buy_sell(stock, volume, 0, self.user)
             pass
         
         return
