@@ -12,7 +12,8 @@ class portfolio(object): # this class will catilog the actions going on within t
         if validate().cash(v,stock.lastPrice,self.balance) == True:
             if stock.symbol in self.positions.keys():
                 x = position(stock,v,self.positions)
-                self.positions[stock.symbol].update(invested = x.invested,stock_num = x.total)
+                self.positions[stock.symbol].invested = x.invested
+                self.positions[stock.symbol].stock_num = x.stock_num
                 self.minus_balance((stock.lastPrice * v))
             else:
                 self.positions.update({stock.symbol:position(stock,v)})
