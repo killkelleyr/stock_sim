@@ -1,17 +1,18 @@
-
+import json
 from logger import logger
 
 stockLogger = logger()
 
 class portfolio(object): # this class will catilog the actions going on within the positions within
     def __init__(self,positions = {}, bank=1000):
-        self.positions= positions
+        self.positions = positions
         self.balance = bank
 
     def addstock(self,stock,v):#stock object, volume , transaction_time
         if validate().cash(v,stock.lastPrice,self.balance) == True:
             if stock.symbol in self.positions.keys():
                 x = position(stock,v,self.positions)
+                print(self.positions[stock.symbol])
                 self.positions[stock.symbol].update(invested = x.invested,stock_num = x.total)
                 self.minus_balance((stock.lastPrice * v))
             else:
@@ -48,6 +49,10 @@ class portfolio(object): # this class will catilog the actions going on within t
 
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True)
+    
+    def from_json(self, json_object):
+        if 'balance' in json_object:
+            return self.Portfolio(json_object['balance'])
 
 class position(object):
     def __init__(self,s,v,p=None):

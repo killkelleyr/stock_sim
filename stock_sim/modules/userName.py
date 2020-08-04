@@ -20,6 +20,7 @@ class userName():
         self.balance = 1000
         self.portfolio = self.portfolioBuilder(portfolioData)
 
+
     def importFromDB():
         try:
             users = dbReader.executeQuery("select * from username")
