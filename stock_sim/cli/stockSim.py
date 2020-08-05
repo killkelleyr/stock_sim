@@ -193,6 +193,7 @@ class normalWorkflow():
     def buySell(self, stock):
         self.display.clearScreen()
         self.display.headerFooter()
+<<<<<<< HEAD
         self.display.printLine('Buy/Sell {} at ${}'.format(stock.symbol,stock.lastPrice))
         self.display.headerFooter()
         self.display.printLine('')
@@ -203,6 +204,17 @@ class normalWorkflow():
             pass
         elif option == '2':
             buy_sell(stock, volume, 0, self.user)
+=======
+        self.display.printLine('Buy/Sell {}'.format(stock.symbol))
+        self.display.headerFooter()
+        self.display.printLine('')
+        option = self.display.printOptions({'1':'Buy','2':'Sell'})
+        if option == '1':
+            #TODO: Buy option
+            pass
+        elif option == '2':
+            #TODO: Check if they own then sell
+>>>>>>> 6c2695f11b40bf781504438c72da9b9fbf39f9b5
             pass
         
         return
