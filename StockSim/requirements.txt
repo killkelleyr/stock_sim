@@ -1,0 +1,2 @@
+django-cron
+django-simple-history
