@@ -12,9 +12,3 @@ class CreateUserForm(UserCreationForm):
                 'unique': 'My Custom Error Message here !!!',
             },
         }
-    
-    def clean_email(self):
-        email = self.cleaned_data['email']
-        if not email.endswith('alertinnovation.com'):
-            raise forms.ValidationError("not a valid Alert Innovation email", code='invalid email')
-        return email
