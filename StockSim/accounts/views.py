@@ -2,10 +2,16 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
+from django.views import generic
 
 from django.shortcuts import render, redirect
 from .decorators import unauthenticated_user, allowed_users
 from .forms import CreateUserForm
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
+import pyEX as p
+import os
 
 #@unauthenticated_user
 def loginUser(request):
@@ -44,3 +50,22 @@ def logoutUser(request):
 def userProfile(request):
     context = {}
     return render(request, 'accounts/profile.html', context)
+
+@method_decorator(login_required, name='dispatch')
+class HomeView(generic.ListView):
+    template_name='accounts/index.html'
+
+    def get(self, request):
+        token=os.environ['API_TOKEN']
+        platform=os.environ['API_PLATFORM']
+        c=p.Client(api_token=token, version=platform)
+        dow=c.quote('DOW')
+        sp500=c.quote('SPY')
+        nasdaq=c.quote('IWM')
+        context={'current':{
+            'dow':{'price':dow['latestPrice'], 'change':dow['changePercent']}, 
+            'sp500':{'price':sp500['latestPrice'], 'change':sp500['changePercent']}, 
+            'nasdaq':{'price':nasdaq['latestPrice'], 'change':nasdaq['changePercent']}
+            }
+        }
+        return render(request, self.template_name, context)
