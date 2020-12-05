@@ -8,6 +8,8 @@ libxml2-dev
 libxslt1-dev 
 zlib1g-dev
 python-pip
+django-encrypted-model-fields
+django-environ
 
 django-cron
 django-simple-history
@@ -31,3 +33,4 @@ Pillow
 pyEX
 
 # sudo pip3 install --pre --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v44 tensorflow
+# pip3 install git+https://github.com/LichAmnesia/Robinhood.git
