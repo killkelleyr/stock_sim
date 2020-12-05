@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} StockSim {% endblock title %}
+{% block title2 %} StockSim {% endblock title2 %}
+{% block title3 %} StockSim {% endblock title3 %}
+{% block Page-View %} 
+<div class="card-footer">
+    <div class="row">
+      <!-- /.col -->
+      {% for x,v in current.items %}
+        <div class="col-sm-3 col-6">
+          <div class="description-block border-right">
+              {% if v.change == 0 %}
+              <span class="description-percentage text-warning">
+                <i class="fas fa-caret-left"></i>
+                {{v.change}}%
+              </span>
+              {% endif %}
+              {% if v.change > 0 %}
+              <span class="description-percentage text-success">
+                <i class="fas fa-caret-up"></i>
+                {{v.change}}%
+              </span>
+              {% endif %}
+              {% if v.change < 0 %}
+              <span class="description-percentage text-danger">
+                <i class="fas fa-caret-down"></i>
+                {{v.change}}%
+              </span>
+              {% endif %}
+            <h5 class="description-header">${{v.price}}</h5>
+            <span class="description-text">{{x}}</span>
+          </div>
+          <!-- /.description-block -->
+        </div>
+      {% endfor %}
+    </div>
+    <!-- /.row -->
+  </div>
+{% endblock Page-View%}

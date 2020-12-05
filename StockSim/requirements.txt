@@ -1,2 +1,36 @@
+python3 
+python-dev 
+python3-dev
+build-essential 
+libssl-dev 
+libffi-dev
+libxml2-dev 
+libxslt1-dev 
+zlib1g-dev
+python-pip
+django-encrypted-model-fields
+django-environ
+
 django-cron
 django-simple-history
+Cython
+numpy
+pandas
+matplotlib
+
+Scikit-learn
+future
+mock
+h5py
+keras_preprocessing
+keras_applications
+gast
+futures 
+protobuf
+pybind11
+
+Pillow
+pyEX
+
+# sudo pip3 install --pre --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v44 tensorflow
+# pip3 install git+https://github.com/LichAmnesia/Robinhood.git

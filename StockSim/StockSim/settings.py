@@ -12,21 +12,28 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+# reading .env file
+environ.Env.read_env()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = [os.environ['LOCAL_IP'],os.environ['EXTERNAL_IP']]
+ALLOWED_HOSTS = [env('LOCAL_IP'),env('EXTERNAL_IP')]
 
 
 # Application definition
@@ -44,6 +51,7 @@ INSTALLED_APPS = [
     # apps
     'portfolio.apps.PortfolioConfig',
     'accounts.apps.AccountsConfig',
+    'trader.apps.TraderConfig',
 ]
 
 MIDDLEWARE = [
@@ -128,7 +136,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATIC_ROOT = 'staticfiles'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"), 
+    os.path.join(BASE_DIR, 'static/'), 
 ]
