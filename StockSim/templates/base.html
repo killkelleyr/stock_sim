@@ -41,13 +41,13 @@
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown user-menu">
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-          <img src="{% static 'dist/img/defaultUser.jpg' %}" class="user-image img-circle elevation-2" alt="User Image">
+          <img src="{% static 'dist/img/defaultUser.png' %}" class="user-image img-circle elevation-2" alt="User Image">
           <span class="d-none d-md-inline">{{request.user}}</span>
         </a>
         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <!-- User image -->
           <li class="user-header bg-primary">
-            <img src="{% static 'dist/img/defaultUser.jpg' %}" class="img-circle elevation-2" alt="User Image">
+            <img src="{% static 'dist/img/defaultUser.png' %}" class="img-circle elevation-2" alt="User Image">
 
             <p>
                 {{request.user.first_name}} {{request.user.last_name|make_list|first}} - Web Developer
