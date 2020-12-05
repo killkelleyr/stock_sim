@@ -92,9 +92,11 @@ WSGI_APPLICATION = 'StockSim.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'read_default_file': '/etc/mysql/my.cnf',
-        },
+        'NAME' : 'my-app-db',
+		'USER' : 'myuser',
+		'PASSWORD' : 'password',
+		'HOST' : 'db',
+		'PORT' : '',
     }
 }
 
@@ -138,5 +140,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = 'staticfiles'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static/'), 
+    os.path.join(BASE_DIR, 'static'), 
 ]

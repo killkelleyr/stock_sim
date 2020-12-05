@@ -1,22 +1,15 @@
-python3 
-python-dev 
-python3-dev
-build-essential 
-libssl-dev 
-libffi-dev
-libxml2-dev 
-libxslt1-dev 
-zlib1g-dev
-python-pip
 django-encrypted-model-fields
 django-environ
-
 django-cron
 django-simple-history
+django-adminlte3
+
 Cython
 numpy
 pandas
 matplotlib
+pymysql
+pyrh
 
 Scikit-learn
 future
@@ -25,7 +18,7 @@ h5py
 keras_preprocessing
 keras_applications
 gast
-futures 
+futures
 protobuf
 pybind11
 
