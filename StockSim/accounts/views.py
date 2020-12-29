@@ -7,6 +7,7 @@ from django.views import generic
 from django.shortcuts import render, redirect
 from .decorators import unauthenticated_user, allowed_users
 from .forms import CreateUserForm
+from .models import Account
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse
@@ -24,7 +25,7 @@ def loginUser(request):
 
         if user is not None:
             login(request, user)
-            return redirect('portfolio:home')
+            return redirect('accounts:home')
         else:
             messages.info(request, 'Incorrect Username/Password')
     context = {} 
@@ -57,17 +58,25 @@ class HomeView(generic.ListView):
     template_name='accounts/index.html'
 
     def get(self, request):
-        #return HttpResponse(request.user.last_login)
+        context={}
+        accountDetails = Account.objects.get(user=request.user)
+        if not accountDetails.rhoodID or not accountDetails.rhoodPWD or not accountDetails.rhQ:
+            context['newUser'] = True
+        #TODO: now that we know if its a new user, we must get the user to provide their RH credentials if they are new
+        #This should be displayed as a modal
+        
+        
+        
         token=os.environ['API_TOKEN']
         platform=os.environ['API_PLATFORM']
         c=p.Client(api_token=token, version=platform)
         dow=c.quote('DOW')
         sp500=c.quote('SPY')
         nasdaq=c.quote('IWM')
-        context={'current':{
+        context['current']={
             'dow':{'price':dow['latestPrice'], 'change':dow['changePercent']}, 
             'sp500':{'price':sp500['latestPrice'], 'change':sp500['changePercent']}, 
             'nasdaq':{'price':nasdaq['latestPrice'], 'change':nasdaq['changePercent']}
             }
-        }
+        #return HttpResponse(context)
         return render(request, self.template_name, context)
