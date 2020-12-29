@@ -32,5 +32,5 @@ class MarketView(generic.ListView):
 
 @method_decorator(login_required, name='dispatch')
 class TradeView(generic.ListView):
-    template_name='trader/trade.html'
-    queryset = ''
+	template_name='trader/trade.html'
+	queryset = ''

@@ -9,6 +9,7 @@ from .decorators import unauthenticated_user, allowed_users
 from .forms import CreateUserForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.http import HttpResponse
 
 import pyEX as p
 import os
@@ -56,6 +57,7 @@ class HomeView(generic.ListView):
     template_name='accounts/index.html'
 
     def get(self, request):
+        #return HttpResponse(request.user.last_login)
         token=os.environ['API_TOKEN']
         platform=os.environ['API_PLATFORM']
         c=p.Client(api_token=token, version=platform)

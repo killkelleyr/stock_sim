@@ -12,5 +12,5 @@ class IndexView(generic.ListView):
     template_name='portfolio/index.html'
     queryset = ''
 
-def index(request):
-    return render(request, 'portfolio/index.html')
+    def get(self, request):
+        return render(request, 'portfolio/index.html')

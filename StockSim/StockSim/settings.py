@@ -24,6 +24,8 @@ env = environ.Env(
 # reading .env file
 environ.Env.read_env()
 
+FIELD_ENCRYPTION_KEY=env('FIELD_ENCRYPTION_KEY')
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
