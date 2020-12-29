@@ -24,6 +24,8 @@ env = environ.Env(
 # reading .env file
 environ.Env.read_env()
 
+FIELD_ENCRYPTION_KEY=env('FIELD_ENCRYPTION_KEY')
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -34,7 +36,6 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = [env('LOCAL_IP'),env('EXTERNAL_IP')]
-
 
 # Application definition
 
@@ -47,8 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_cron',
     'simple_history',
-
-    # apps
+    'encrypted_model_fields',
     'portfolio.apps.PortfolioConfig',
     'accounts.apps.AccountsConfig',
     'trader.apps.TraderConfig',
@@ -92,9 +92,9 @@ WSGI_APPLICATION = 'StockSim.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME' : 'my-app-db',
-		'USER' : 'myuser',
-		'PASSWORD' : 'password',
+        'NAME' : env('DJANGO_DB'),
+		'USER' : env('DJANGO_USER'),
+		'PASSWORD' : env('DJANGO_PASSWORD'),
 		'HOST' : 'db',
 		'PORT' : '',
     }

@@ -3,38 +3,74 @@
 {% block title %} StockSim {% endblock title %}
 {% block title2 %} StockSim {% endblock title2 %}
 {% block title3 %} StockSim {% endblock title3 %}
+
+
 {% block Page-View %} 
-<div class="card-footer">
-    <div class="row">
-      <!-- /.col -->
-      {% for x,v in current.items %}
-        <div class="col-sm-3 col-6">
-          <div class="description-block border-right">
-              {% if v.change == 0 %}
-              <span class="description-percentage text-warning">
-                <i class="fas fa-caret-left"></i>
-                {{v.change}}%
-              </span>
-              {% endif %}
-              {% if v.change > 0 %}
-              <span class="description-percentage text-success">
-                <i class="fas fa-caret-up"></i>
-                {{v.change}}%
-              </span>
-              {% endif %}
-              {% if v.change < 0 %}
-              <span class="description-percentage text-danger">
-                <i class="fas fa-caret-down"></i>
-                {{v.change}}%
-              </span>
-              {% endif %}
-            <h5 class="description-header">${{v.price}}</h5>
-            <span class="description-text">{{x}}</span>
-          </div>
-          <!-- /.description-block -->
+
+
+{% if newUser %}
+<body onLoad="$('#my-modal').modal('show');">
+  <div class="modal fade" id="my-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Welcome to StockSim {{request.user}}!</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-      {% endfor %}
+        <div class="modal-body">
+          <p> Since this is your first time lets setup your robinhood account&hellip;</p>
+          <form action="" method="post">
+            {% csrf_token %}
+            
+          </form>
+
+        </div>
+        <div class="modal-footer center">
+          
+          <button type="button" class="btn btn-primary">Save Account Info</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
     </div>
-    <!-- /.row -->
+    <!-- /.modal-dialog -->
   </div>
+  <!-- /.modal -->
+</body>
+{% else %}
+  <div class="card-footer">
+      <div class="row">
+        <!-- /.col -->
+        {% for x,v in current.items %}
+          <div class="col-sm-3 col-6">
+            <div class="description-block border-right">
+                {% if v.change == 0 %}
+                <span class="description-percentage text-warning">
+                  <i class="fas fa-caret-left"></i>
+                  {{v.change}}%
+                </span>
+                {% endif %}
+                {% if v.change > 0 %}
+                <span class="description-percentage text-success">
+                  <i class="fas fa-caret-up"></i>
+                  {{v.change}}%
+                </span>
+                {% endif %}
+                {% if v.change < 0 %}
+                <span class="description-percentage text-danger">
+                  <i class="fas fa-caret-down"></i>
+                  {{v.change}}%
+                </span>
+                {% endif %}
+              <h5 class="description-header">${{v.price}}</h5>
+              <span class="description-text">{{x}}</span>
+            </div>
+            <!-- /.description-block -->
+          </div>
+        {% endfor %}
+      </div>
+      <!-- /.row -->
+    </div>
+{% endif %}
 {% endblock Page-View%}
