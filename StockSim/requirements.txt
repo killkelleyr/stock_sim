@@ -1,8 +1,10 @@
-django-encrypted-model-fields
+django-cryptography
 django-environ
 django-cron
 django-simple-history
 django-adminlte3
+django-encrypted-model-fields
+django-utils-six
 
 Cython
 numpy
